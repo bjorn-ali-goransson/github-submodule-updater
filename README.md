@@ -1,2 +1,3 @@
-gitmodules-updater
+PHP GitHub submodules updater
 ==================
+
