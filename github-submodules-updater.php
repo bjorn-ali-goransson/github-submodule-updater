@@ -112,7 +112,11 @@ function github_submodules_updater_update_submodule_with_branch($submodule, $opt
     'unzipped_suffix' => '.unzipped',
     'unzip' => function($zip_file, $unzip_to){
       if(!class_exists('PclZip')){
-        throw new Exception('PclZip could not be found or loaded');
+        require dirname(__FILE__) . 'class-pclzip.php';
+
+        if(!class_exists('PclZip')){
+          throw new Exception('PclZip could not be found or loaded');
+        }
       }
 
       $archive = new PclZip($zip_file);
