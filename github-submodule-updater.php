@@ -14,7 +14,6 @@ function github_submodule_updater_get_branches($submodule){
 
 function github_submodule_updater_redo_update($submodule, $options = array()){
   $default_options = array(
-    'branch' => 'master',
     'gitmodules_location' => getcwd(),
     'old_suffix' => '.old',
     'undone_suffix' => '.undone',
