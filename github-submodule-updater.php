@@ -22,7 +22,7 @@ function github_submodule_updater_update($submodule, $options = array()){
     'unzipped_suffix' => '.unzipped',
     'unzip' => function($zip_file, $unzip_to){
       if(!class_exists('PclZip')){
-        require dirname(__FILE__) . 'class-pclzip.php';
+        require dirname(__FILE__) . '/class-pclzip.php';
 
         if(!class_exists('PclZip')){
           throw new Exception('PclZip could not be found or loaded');
