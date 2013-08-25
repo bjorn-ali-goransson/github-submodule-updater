@@ -12,7 +12,7 @@ Functions
 
 Returns an array of all branches for the specified submodule. Uses [GitHub Repos API v3](http://developer.github.com/v3/repos/#list-branches), so the returned branch objects with have a ```$branch->name``` property along with a ```$branch->commit``` property containing info about the latest commit.
 
-### github_submodule_updater_update_submodule_with_branch($submodule, $options = array())
+### github_submodule_updater_update($submodule, $options = array())
 
 Updates the specified submodule to the latest version of branch 'master', and saves the existing version in a folder haveing the same name but ending with .old (for undoing updates). If that folder already exists, it will be deleted if downloading/unzipping of the package is successful. Uses PclZip for unzipping (but keep reading).
 

@@ -12,7 +12,7 @@ function github_submodule_updater_get_branches($submodule){
   return $result;
 }
 
-function github_submodule_updater_update_submodule_with_branch($submodule, $options = array()){
+function github_submodule_updater_update($submodule, $options = array()){
   $default_options = array(
     'temp_path' => rtrim(sys_get_temp_dir(), '/\\'),
     'branch' => 'master',
