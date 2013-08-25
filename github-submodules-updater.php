@@ -2,7 +2,7 @@
 
 require dirname(__FILE__) . '/lib/gitmodules-parser/gitmodules-parser.php';
 
-function github_submodules_updater_get_branches($submodule){
+function github_submodule_updater_get_branches($submodule){
   $result = json_decode(file_get_contents("https://api.github.com/repos/$submodule->author/$submodule->repo/branches"));
 
   if(!$result){
@@ -12,7 +12,7 @@ function github_submodules_updater_get_branches($submodule){
   return $result;
 }
 
-function github_submodules_updater_redo_update($submodule, $options = array()){
+function github_submodule_updater_redo_update($submodule, $options = array()){
   $default_options = array(
     'branch' => 'master',
     'gitmodules_location' => getcwd(),
@@ -36,7 +36,7 @@ function github_submodules_updater_redo_update($submodule, $options = array()){
 
   $old_dir = $options['repo_dir'] . $options['old_suffix'];
 
-  github_submodules_updater_remove_directory($old_dir, 'old dir');
+  github_submodule_updater_remove_directory($old_dir, 'old dir');
 
 
 
@@ -57,7 +57,7 @@ function github_submodules_updater_redo_update($submodule, $options = array()){
   }
 }
 
-function github_submodules_updater_undo_update($submodule, $options = array()){
+function github_submodule_updater_undo_update($submodule, $options = array()){
   $default_options = array(
     'branch' => 'master',
     'gitmodules_location' => getcwd(),
@@ -81,7 +81,7 @@ function github_submodules_updater_undo_update($submodule, $options = array()){
 
   $undone_dir = $options['repo_dir'] . $options['undone_suffix'];
 
-  github_submodules_updater_remove_directory($undone_dir, 'undone dir');
+  github_submodule_updater_remove_directory($undone_dir, 'undone dir');
 
 
 
@@ -102,7 +102,7 @@ function github_submodules_updater_undo_update($submodule, $options = array()){
   }
 }
 
-function github_submodules_updater_update_submodule_with_branch($submodule, $options = array()){
+function github_submodule_updater_update_submodule_with_branch($submodule, $options = array()){
   $default_options = array(
     'temp_path' => rtrim(sys_get_temp_dir(), '/\\'),
     'branch' => 'master',
@@ -150,7 +150,7 @@ function github_submodules_updater_update_submodule_with_branch($submodule, $opt
 
   /* DOWNLOAD ZIP TO TEMP */
 
-  github_submodules_updater_create_directory($options['temp_path'], 'upload dir');
+  github_submodule_updater_create_directory($options['temp_path'], 'upload dir');
   
   $file_contents = file_get_contents($options['zip_url']);
 
@@ -170,8 +170,8 @@ function github_submodules_updater_update_submodule_with_branch($submodule, $opt
 
   $unzipped_dir = $options['repo_dir'] . $options['unzipped_suffix'];
 
-  github_submodules_updater_remove_directory($unzipped_dir, 'unzipped dir');
-  github_submodules_updater_create_directory($unzipped_dir, 'unzipped dir');
+  github_submodule_updater_remove_directory($unzipped_dir, 'unzipped dir');
+  github_submodule_updater_create_directory($unzipped_dir, 'unzipped dir');
 
 
 
@@ -187,7 +187,7 @@ function github_submodules_updater_update_submodule_with_branch($submodule, $opt
   
   $new_dir = $options['repo_dir'] . $options['new_suffix'];
 
-  github_submodules_updater_remove_directory($new_dir, 'new dir');
+  github_submodule_updater_remove_directory($new_dir, 'new dir');
 
   $unzipped_sub_dir = $unzipped_dir . '/' . $options['github_subfolder_name'];
 
@@ -203,7 +203,7 @@ function github_submodules_updater_update_submodule_with_branch($submodule, $opt
 
   /* REMOVE 'UNZIPPED' DIRECTORY */
 
-  github_submodules_updater_remove_directory($unzipped_dir, 'unzipped dir');
+  github_submodule_updater_remove_directory($unzipped_dir, 'unzipped dir');
   
   
 
@@ -211,7 +211,7 @@ function github_submodules_updater_update_submodule_with_branch($submodule, $opt
 
   $old_dir = $options['repo_dir'] . $options['old_suffix'];
   
-  github_submodules_updater_remove_directory($old_dir, 'old dir');
+  github_submodule_updater_remove_directory($old_dir, 'old dir');
 
 
 
@@ -232,7 +232,7 @@ function github_submodules_updater_update_submodule_with_branch($submodule, $opt
   }
 }
 
-function github_submodules_updater_remove_directory($dir, $label){
+function github_submodule_updater_remove_directory($dir, $label){
   if(file_exists($dir)){
     foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $rmpath) {
       $rmpath->isFile() ? unlink($rmpath->getPathname()) : rmdir($rmpath->getPathname());
@@ -246,7 +246,7 @@ function github_submodules_updater_remove_directory($dir, $label){
   }
 }
 
-function github_submodules_updater_create_directory($dir, $label){
+function github_submodule_updater_create_directory($dir, $label){
   if(!file_exists($dir)){
     if(!mkdir($dir, 0777, true)){
       throw new Exception("Couldn't create $label ($dir)");
