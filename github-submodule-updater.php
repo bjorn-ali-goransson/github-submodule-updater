@@ -126,10 +126,8 @@ function github_submodule_updater_update($submodule, $options = array()){
 
   /* RENAME CURRENT REPO DIRECTORY */
   
-  if($options['enable_undo']){
-    if(file_exists($options['repo_dir']) && !rename($options['repo_dir'], $old_dir)){
-      throw new Exception("Couldn't rename current repo dir ({$options['repo_dir']} to $old_dir)");
-    }
+  if(file_exists($options['repo_dir']) && !rename($options['repo_dir'], $old_dir)){
+    throw new Exception("Couldn't rename current repo dir ({$options['repo_dir']} to $old_dir)");
   }
   
   
@@ -138,6 +136,14 @@ function github_submodule_updater_update($submodule, $options = array()){
   
   if(!rename($new_dir, $options['repo_dir'])){
     throw new Exception("Couldn't rename new repo dir ($new_dir to {$options['repo_dir']})");
+  }
+
+
+
+  /* REMOVE OLD DIRECTORY IF UNDO NOT ENABLED */
+
+  if(!$options['enable_undo']){
+    github_submodule_updater_remove_directory($old_dir, 'old dir');
   }
 }
 
