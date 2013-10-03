@@ -16,7 +16,6 @@ function github_submodule_updater_update($submodule, $options = array()){
   $default_options = array(
     'temp_path' => rtrim(sys_get_temp_dir(), '/\\'),
     'branch' => 'master',
-    'gitmodules_location' => getcwd(),
     'old_suffix' => '.old',
     'new_suffix' => '.new',
     'unzipped_suffix' => '.unzipped',
@@ -45,7 +44,7 @@ function github_submodule_updater_update($submodule, $options = array()){
   }
 
   if(!isset($options['repo_dir'])){
-    $options['repo_dir'] = $options['gitmodules_location'] . '/' . $submodule->path;
+    $options['repo_dir'] = $submodule->path;
   }
 
   if(!isset($options['zip_url'])){
@@ -144,7 +143,6 @@ function github_submodule_updater_update($submodule, $options = array()){
 
 function github_submodule_updater_undo_update($submodule, $options = array()){
   $default_options = array(
-    'gitmodules_location' => getcwd(),
     'old_suffix' => '.old',
     'undone_suffix' => '.undone',
   );
@@ -156,7 +154,7 @@ function github_submodule_updater_undo_update($submodule, $options = array()){
   }
 
   if(!isset($options['repo_dir'])){
-    $options['repo_dir'] = $options['gitmodules_location'] . '/' . $submodule->path;
+    $options['repo_dir'] = $submodule->path;
   }
 
 
@@ -188,7 +186,6 @@ function github_submodule_updater_undo_update($submodule, $options = array()){
 
 function github_submodule_updater_redo_update($submodule, $options = array()){
   $default_options = array(
-    'gitmodules_location' => getcwd(),
     'old_suffix' => '.old',
     'undone_suffix' => '.undone',
   );
@@ -200,7 +197,7 @@ function github_submodule_updater_redo_update($submodule, $options = array()){
   }
 
   if(!isset($options['repo_dir'])){
-    $options['repo_dir'] = $options['gitmodules_location'] . '/' . $submodule->path;
+    $options['repo_dir'] = $submodule->path;
   }
 
 
