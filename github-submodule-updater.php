@@ -124,6 +124,14 @@ function github_submodule_updater_update($submodule, $options = array()){
 
 
 
+  /* DOWNLOAD ALL SUBMODULES */
+
+  foreach($submodule_submodules = gitmodules_get_all($new_dir) as $submodule_submodule){
+    github_submodule_updater_update($submodule_submodule, array('enable_undo' => FALSE));
+  }
+
+  
+
   /* RENAME CURRENT REPO DIRECTORY */
   
   if(file_exists($options['repo_dir']) && !rename($options['repo_dir'], $old_dir)){
