@@ -51,10 +51,6 @@ function github_submodule_updater_update($submodule, $options = array()){
     $options['zip_url'] = "https://github.com/{$submodule->author}/{$submodule->repo}/archive/{$options['branch']}.zip";
   }
 
-  if(!isset($options['github_subfolder_name'])){
-    $options['github_subfolder_name'] = "{$submodule->repo}-{$options['branch']}";
-  }
-
 
 
   /* DOWNLOAD ZIP TO TEMP */
@@ -89,16 +85,28 @@ function github_submodule_updater_update($submodule, $options = array()){
   $options['unzip']($temp_file, $unzipped_dir);
 
   unlink($temp_file);
-
-
-
-  /* MOVE FILES FROM 'UNZIPPED' SUB DIRECTORY TO NEW REPO DIRECTORY */
+  
+  
+  
+  /* REMOVE 'NEW' DIRECTORY IF EXISTS */
   
   $new_dir = $options['repo_dir'] . $options['new_suffix'];
 
   github_submodule_updater_remove_directory($new_dir, 'new dir');
 
-  $unzipped_sub_dir = $unzipped_dir . '/' . $options['github_subfolder_name'];
+
+
+  /* MOVE FILES FROM 'UNZIPPED' SUB DIRECTORY TO NEW REPO DIRECTORY */
+  
+  $unzipped_subfolder_name = NULL;
+  
+  foreach(scandir($unzipped_dir) as $folder_name) {
+    if($folder_name != '.' && $folder_name != '..'){
+      $unzipped_subfolder_name = $folder_name; break;
+    }
+  }
+  
+  $unzipped_sub_dir = $unzipped_dir . '/' . $unzipped_subfolder_name;
 
   if(!file_exists($unzipped_sub_dir)){
     throw new Exception("Couldn't find unzipped dir ($unzipped_sub_dir)");
